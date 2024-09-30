@@ -3,14 +3,14 @@ package com.pt.userms.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.pt.userms.dto.req.UserDTO;
+import com.pt.userms.dto.resp.UserRespDTO;
 import com.pt.userms.models.entity.Userms;
 
 public interface UsermsService {
 	
-	List<Userms> listUsers();
+	List<UserRespDTO> listUsers();
 
-	Optional<Userms> getUsermsbyId(Long id);
+	UserRespDTO getUsermsbyId(Long id);
 
 	void deleteUsuario(Long id);
 }
