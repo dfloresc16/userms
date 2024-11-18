@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.pt.userms.dto.resp.UserRespDTO;
+import com.pt.userms.dto.resp.UserRespLoginDTO;
 import com.pt.userms.models.entity.Userms;
 
 public interface UsermsService {
@@ -13,4 +14,6 @@ public interface UsermsService {
 	UserRespDTO getUsermsbyId(Long id);
 
 	void deleteUsuario(Long id);
+
+	UserRespLoginDTO getUsermsByEmail(String email);
 }

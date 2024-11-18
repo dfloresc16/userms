@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.pt.userms.dto.resp.UserRespDTO;
+import com.pt.userms.dto.resp.UserRespLoginDTO;
 import com.pt.userms.models.entity.Userms;
 import com.pt.userms.repository.UsermsRepository;
 import com.pt.userms.service.UsermsService;
@@ -51,5 +52,25 @@ public class UserServiceImpl implements UsermsService{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public UserRespLoginDTO getUsermsByEmail(String email) {
+		log.info(String.format("getUsermsByEmail email[%s]",email));
+		Userms userms = usermsRepository.findByEmail(email)
+									.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		UserRespLoginDTO userRespLoginDTO = new UserRespLoginDTO();
+		userRespLoginDTO.setId(userms.getId());
+		userRespLoginDTO.setUserName(userms.getUserName());
+		userRespLoginDTO.setEmail(userms.getEmail());
+		userRespLoginDTO.setLastName(userms.getLastName());
+		userRespLoginDTO.setName(userms.getName());
+		userRespLoginDTO.setPhoneNumber(userms.getPhoneNumber());
+		userRespLoginDTO.setPin(userms.getPin());
+		userRespLoginDTO.setActive(userms.getActive());
+		log.info(String.format("userEmail [%s]", userRespLoginDTO.getEmail()));
+		return userRespLoginDTO;
+	}
+	
+
 
 }

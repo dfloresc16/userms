@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.pt.userms.dto.GenericResponseDTO;
 import com.pt.userms.dto.req.UserReqDTO;
 import com.pt.userms.dto.resp.UserRespDTO;
+import com.pt.userms.dto.resp.UserRespLoginDTO;
 import com.pt.userms.models.commons.CommonController;
 import com.pt.userms.service.impl.UserServiceImpl;
 
@@ -67,5 +68,26 @@ public class UsermsController extends CommonController{
 	    }
 	}
 
-
+	
+	
+	@RequestMapping(path = "/getUserByEmail", method = RequestMethod.GET)
+	public ResponseEntity<GenericResponseDTO<UserRespLoginDTO>> getUserByEmail(
+	        @RequestParam("email") String email) {
+	    try {
+	        logger.info(String.format("Start getUser for user: %s", email));
+	        UserRespLoginDTO respDTO = userServiceImpl.getUsermsByEmail(email);
+	        return ResponseEntity.ok(new GenericResponseDTO(SUCCESS, HttpStatus.OK.value(), null, null,
+	                "service executed successfully", respDTO));
+	    } catch (ResponseStatusException e) {
+	        logger.error("Exception: " + e.getMessage());
+	        return new ResponseEntity<>(new GenericResponseDTO<>(ERROR, HttpStatus.NOT_FOUND.value(), 
+	                HttpStatus.NOT_FOUND.toString(), e.getMessage(), "service execution failed", null), 
+	                HttpStatus.NOT_FOUND);
+	    } catch (Exception e) {
+	        logger.error("Exception: " + e.getMessage());
+	        return new ResponseEntity<>(new GenericResponseDTO<>(ERROR, HttpStatus.INTERNAL_SERVER_ERROR.value(), 
+	                HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage(), "service execution failed", null), 
+	                HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 }
